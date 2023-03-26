@@ -6,6 +6,13 @@
  *
  */
 
+// This application serves one purpose only.
+// It generates ../src/o3deNetClasses/o3deClasses.ts from
+// ./o3de_classes.json
+//
+// Also, ./o3de_classes.json was generated with this Gem:
+// https://github.com/lumbermixalot/SerializationContextExporter
+
 import o3deClasses from "./o3de_classes.json";
 import path from 'path';
 import fs from 'fs';
