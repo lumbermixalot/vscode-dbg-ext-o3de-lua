@@ -1,0 +1,52 @@
+Some notes on on how AZ::ObjectStream works.
+
+    AZ::ObjectStream::Create() {
+                    u8 binaryTag = s_binaryStreamTag;
+                    u32 version = static_cast<u32>(m_version);
+                    AZStd::endian_swap(binaryTag);
+                    AZStd::endian_swap(version);
+                    m_stream->Write(sizeof(binaryTag), &binaryTag);
+                    m_stream->Write(sizeof(version), &version);
+}
+
+objStream->WriteClass(&msg)
+{
+            And does the same write algorithm as in line 1565
+            bool ObjectStreamImpl::WriteElement()
+            {
+                ... Line 1704
+                            SerializeContext::DataElement element;
+            if (classElement)
+            {
+                element.m_name = classElement->m_name;
+                element.m_nameCrc = classElement->m_nameCrc;
+            }
+            element.m_id = classData->m_typeId;
+            element.m_version = classData->m_version;
+            element.m_dataSize = 0;
+            element.m_stream = &m_inStream;
+
+               which simply writes (sizeof(flagSize), &flagsize)
+               and then writes the UUID. (16 bytes)
+            }
+
+            And then for each element in the class
+            for (element In Elements)
+            {
+                EnumerateInstance(callContext, dataAddress, ed.m_typeId, elemClassInfo, &ed);
+                // At the end of each element:
+                //u8 endTag = ST_BINARYFLAG_ELEMENT_END;
+                //m_stream->Write(sizeof(u8), &endTag);
+            }
+
+            The whole thing is basically recursive.
+
+}
+
+
+
+objStream->Finalize()
+{
+  u8 endTag = ST_BINARYFLAG_ELEMENT_END;
+  m_stream->Write(sizeof(u8), &endTag); 
+}

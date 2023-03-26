@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "typescript",
+            "tsconfig": "tsconfig.json",
+            "isBackground": false,
+            "group": {
+                "isDefault": true,
+                "kind": "build"
+            },
+            "problemMatcher": "$tsc",
+            "label": "ts: build"
+        }
+    ]
+}

@@ -1,0 +1,170 @@
+{
+  "name": "o3de-lua-debug",
+  "displayName": "Lua Debugger For O3DE",
+  "version": "1.0.1",
+  "publisher": "lumbermixalot",
+  "description": "Lua Debugger Extension For O3DE.",
+  "author": {
+    "name": "Galib F. Arrieta"
+  },
+  "license": "MIT",
+  "keywords": [
+    "lua",
+    "o3de"
+  ],
+  "engines": {
+    "vscode": "^1.66.0"
+  },
+  "galleryBanner": {
+     "color": "#202020",
+     "theme": "dark"
+  },
+  "icon": "images/o3de-lua-dbg-icon.png",
+  "categories": [
+    "Debuggers"
+  ],
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lumbermixalot/vscode-dbg-ext-o3de-lua.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lumbermixalot/vscode-dbg-ext-o3de-lua/issues"
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --tsconfig=./tsconfig.json --external:vscode --format=cjs --platform=node --outfile=dist/extension.js",
+    "watch": "npm run -S esbuild-base -- --sourcemap --sources-content=false --watch",
+    "build": "npm run -S esbuild-base -- --sourcemap --sources-content=false",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "publish-pre-release": "vsce publish --pre-release",
+    "vscode:prepublish": "rimraf dist && npm run -S esbuild-base -- --minify",
+    "test": "npm run typecheck"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^14.14.37",
+    "@types/vscode": "^1.66.0",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "@vscode/debugadapter": "^1.56.0",
+    "@vscode/debugadapter-testsupport": "^1.56.0",
+    "await-notify": "^1.0.1",
+    "base64-js": "^1.5.1",
+    "esbuild": "^0.14.29",
+    "eslint": "^8.12.0",
+    "events": "^3.3.0",
+    "glob": "^7.2.0",
+    "mocha": "^9.2.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.6.3",
+    "url": "^0.11.0",
+    "vsce": "^2.7.0"
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onUri",
+    "onDebugResolve:O3DELua"
+  ],
+  "workspaceTrust": {
+    "request": "never"
+  },
+  "contributes": {
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "lumbermixalot.o3de-lua-debug.debugEditorContents",
+          "when": "resourceLangId == lua",
+          "group": "navigation@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "lumbermixalot.o3de-lua-debug.debugEditorContents",
+          "when": "resourceLangId == lua"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "lumbermixalot.o3de-lua-debug.debugEditorContents",
+        "title": "Debug File",
+        "category": "O3DELua Debug",
+        "enablement": "!inDebugMode",
+        "icon": "$(debug-alt)"
+      },
+      {
+        "command": "lumbermixalot.o3de-lua-debug.updateGameProjectPath",
+        "title": "Updates the active game project path"
+      }
+    ],
+    "breakpoints": [
+      {
+        "language": "lua"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "O3DELua",
+        "languages": [
+          "lua"
+        ],
+        "label": "O3DELua Debug",
+        "runtime": "node",
+        "configurationAttributes": {
+          "attach": {
+            "required": [
+              "gameProjectPath"
+            ],
+            "properties": {
+              "gameProjectPath": {
+                "type": "string",
+                "description": "Absolute path to an O3DE-compatible Game Project directory. If not defined or empty, defaults to projectPath setting.",
+                "default": ""
+              },
+              "tcpListenPort": {
+                "type": "number",
+                "description": "Tcp port where this debugger wll listen for the O3DE Editor.exe. If not defined or 0, defaults to user configured 'tcpListenPort' setting.",
+                "default": 0
+              },
+              "trace": {
+                "type": "boolean",
+                "description": "Enable logging of the Debug Adapter Protocol.",
+                "default": true
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "O3DELua",
+            "request": "attach",
+            "name": "Default O3DE Lua Debugger configuration",
+            "gameProjectPath": "${config:gameProjectPath}",
+            "tcpListenPort": 0,
+            "trace": true
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "Lua Debugger For O3DE",
+      "properties": {
+        "gameProjectPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the game project root directory. This is optional, because if lua scripts are open in the O3DE Editor using the Script Component open button, the game project path will be provided in the URI. This is only necessary when manually opening Lua scripts."
+        },
+        "tcpListenPort": {
+          "type": "number",
+          "default": 6777,
+          "description": "Tcp port where this extension will listen for debugging connection requests coming from the O3DE Editor."
+        }
+      }
+    }
+  }
+}

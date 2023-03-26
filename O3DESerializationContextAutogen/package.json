@@ -1,0 +1,30 @@
+{
+  "name": "o3deserializationcontextautogen",
+  "version": "1.0.0",
+  "description": "Generates Class file from .json files that contain ClassData from O3DE SerializationContext",
+  "main": "main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lumbermixalot/O3DELuaDbgVSCodeExtension.git"
+  },
+  "keywords": [
+    "O3DE",
+    "SerializationContext",
+    "Lua",
+    "Debugger"
+  ],
+  "author": "Galib F. Arrieta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lumbermixalot/O3DELuaDbgVSCodeExtension/issues"
+  },
+  "homepage": "https://github.com/lumbermixalot/O3DELuaDbgVSCodeExtension#readme",
+  "dependencies": {
+    "@types/node": "^18.14.6",
+    "save-dev": "^0.0.1-security",
+    "typescript": "^4.6.3"
+  }
+}

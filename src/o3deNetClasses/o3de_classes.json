@@ -1,0 +1,879 @@
+{"classes":
+[
+
+{
+    "name": "ScriptDebugSetValue",
+    "uuid": "{11E0E012-BD54-457D-A44B-FDDA55736ED3}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 192,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "value",
+            "nameCrc": 494360628,
+            "isBaseClass": false,
+            "uuid": "{C32D1E88-2B8B-432C-91BC-D0B4B135279D}",
+            "cppOffset": 64,
+            "cppSize": 128,
+            "elementIndex": 1
+        }
+    ]
+}
+, {
+    "name": "DebugValue",
+    "uuid": "{C32D1E88-2B8B-432C-91BC-D0B4B135279D}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 128,
+    "elements": [
+        {
+            "name": "name",
+            "nameCrc": 1579384326,
+            "isBaseClass": false,
+            "uuid": "{189CC2ED-FDDE-5680-91D4-9F630A79187F}",
+            "cppOffset": 0,
+            "cppSize": 24,
+            "elementIndex": 0
+        },
+        {
+            "name": "value",
+            "nameCrc": 494360628,
+            "isBaseClass": false,
+            "uuid": "{189CC2ED-FDDE-5680-91D4-9F630A79187F}",
+            "cppOffset": 24,
+            "cppSize": 24,
+            "elementIndex": 1
+        },
+        {
+            "name": "type",
+            "nameCrc": 2363381545,
+            "isBaseClass": false,
+            "uuid": "{3AB0037F-AF8D-48CE-BCA0-A170D18B2C03}",
+            "cppOffset": 48,
+            "cppSize": 1,
+            "elementIndex": 2
+        },
+        {
+            "name": "flags",
+            "nameCrc": 184893882,
+            "isBaseClass": false,
+            "uuid": "{72B9409A-7D1A-4831-9CFE-FCB3FADD3426}",
+            "cppOffset": 80,
+            "cppSize": 1,
+            "elementIndex": 3
+        },
+        {
+            "name": "elements",
+            "nameCrc": 1145702237,
+            "isBaseClass": false,
+            "uuid": "{50B333E9-98CD-5FF6-871A-5C6CD54C83A1}",
+            "cppOffset": 88,
+            "cppSize": 32,
+            "elementIndex": 4
+        }
+    ]
+}
+, {
+    "name": "AZStd::vector<DebugValue, AZStdAlloc<OSAllocator>>",
+    "uuid": "{50B333E9-98CD-5FF6-871A-5C6CD54C83A1}",
+    "version": 0,
+    "containerTypes": [
+        "{C32D1E88-2B8B-432C-91BC-D0B4B135279D}"
+    ],
+    "typeSize": 32,
+    "elements": []
+}
+, {
+    "name": "unsigned char",
+    "uuid": "{72B9409A-7D1A-4831-9CFE-FCB3FADD3426}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 1,
+    "elements": []
+}
+, {
+    "name": "char",
+    "uuid": "{3AB0037F-AF8D-48CE-BCA0-A170D18B2C03}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 1,
+    "elements": []
+}
+, {
+    "name": "AZStd::basic_string<char, AZStd::char_traits<char>, AZStdAlloc<OSAllocator>>",
+    "uuid": "{189CC2ED-FDDE-5680-91D4-9F630A79187F}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 24,
+    "elements": []
+}
+, {
+    "name": "RemoteToolsMessage",
+    "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 64,
+    "elements": [
+        {
+            "name": "MsgId",
+            "nameCrc": 1836245913,
+            "isBaseClass": false,
+            "uuid": "{D6597933-47CD-4FC8-B911-63F3E2B0993A}",
+            "cppOffset": 24,
+            "cppSize": 8,
+            "elementIndex": 0
+        }
+    ]
+}
+, {
+    "name": "AZ::u64",
+    "uuid": "{D6597933-47CD-4FC8-B911-63F3E2B0993A}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 8,
+    "elements": []
+}
+, {
+    "name": "ScriptDebugRegisteredEBusesResult",
+    "uuid": "{D2B5D77C-09F3-476D-A611-49B0A1B9EDFB}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 96,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "EBusses",
+            "nameCrc": 3461815245,
+            "isBaseClass": false,
+            "uuid": "{83B2BDFB-6659-5099-952D-44077768DA1D}",
+            "cppOffset": 64,
+            "cppSize": 32,
+            "elementIndex": 1
+        }
+    ]
+}
+, {
+    "name": "AZStd::vector<ScriptUserEBusInfo, allocator>",
+    "uuid": "{83B2BDFB-6659-5099-952D-44077768DA1D}",
+    "version": 0,
+    "containerTypes": [
+        "{2376407E-1621-4D7F-B4AD-DE04A81A2616}"
+    ],
+    "typeSize": 32,
+    "elements": []
+}
+, {
+    "name": "ScriptUserEBusInfo",
+    "uuid": "{2376407E-1621-4D7F-B4AD-DE04A81A2616}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 64,
+    "elements": [
+        {
+            "name": "name",
+            "nameCrc": 1579384326,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 0,
+            "cppSize": 24,
+            "elementIndex": 0
+        },
+        {
+            "name": "events",
+            "nameCrc": 1401378634,
+            "isBaseClass": false,
+            "uuid": "{728F0A54-98E4-5415-BFB1-DCA80373D445}",
+            "cppOffset": 24,
+            "cppSize": 32,
+            "elementIndex": 1
+        },
+        {
+            "name": "canBroadcast",
+            "nameCrc": 127233527,
+            "isBaseClass": false,
+            "uuid": "{A0CA880C-AFE4-43CB-926C-59AC48496112}",
+            "cppOffset": 56,
+            "cppSize": 1,
+            "elementIndex": 2
+        },
+        {
+            "name": "canQueue",
+            "nameCrc": 2644957492,
+            "isBaseClass": false,
+            "uuid": "{A0CA880C-AFE4-43CB-926C-59AC48496112}",
+            "cppOffset": 57,
+            "cppSize": 1,
+            "elementIndex": 3
+        },
+        {
+            "name": "hasHandler",
+            "nameCrc": 1183245781,
+            "isBaseClass": false,
+            "uuid": "{A0CA880C-AFE4-43CB-926C-59AC48496112}",
+            "cppOffset": 58,
+            "cppSize": 1,
+            "elementIndex": 4
+        }
+    ]
+}
+, {
+    "name": "bool",
+    "uuid": "{A0CA880C-AFE4-43CB-926C-59AC48496112}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 1,
+    "elements": []
+}
+, {
+    "name": "AZStd::vector<ScriptUserEBusMethodInfo, allocator>",
+    "uuid": "{728F0A54-98E4-5415-BFB1-DCA80373D445}",
+    "version": 0,
+    "containerTypes": [
+        "{FD805F6C-8612-41CF-85FE-3B97683C98F2}"
+    ],
+    "typeSize": 32,
+    "elements": []
+}
+, {
+    "name": "ScriptUserEBusMethodInfo",
+    "uuid": "{FD805F6C-8612-41CF-85FE-3B97683C98F2}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 72,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{32FE4B43-2C23-4AB4-9374-3D13CF050002}",
+            "cppOffset": 0,
+            "cppSize": 48,
+            "elementIndex": -1
+        },
+        {
+            "name": "category",
+            "nameCrc": 105650625,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 48,
+            "cppSize": 24,
+            "elementIndex": 2
+        }
+    ]
+}
+, {
+    "name": "AZStd::string",
+    "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 24,
+    "elements": []
+}
+, {
+    "name": "ScriptUserMethodInfo",
+    "uuid": "{32FE4B43-2C23-4AB4-9374-3D13CF050002}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 48,
+    "elements": [
+        {
+            "name": "name",
+            "nameCrc": 1579384326,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 0,
+            "cppSize": 24,
+            "elementIndex": 0
+        },
+        {
+            "name": "info",
+            "nameCrc": 3414765911,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 24,
+            "cppSize": 24,
+            "elementIndex": 1
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugRegisteredClassesResult",
+    "uuid": "{7DF455AB-9AB1-4A95-B906-5DB1D1087EBB}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 96,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "classes",
+            "nameCrc": 49118917,
+            "isBaseClass": false,
+            "uuid": "{22CF640B-104F-5EC4-B6AE-5EE144F1DBE2}",
+            "cppOffset": 64,
+            "cppSize": 32,
+            "elementIndex": 1
+        }
+    ]
+}
+, {
+    "name": "AZStd::vector<ScriptUserClassInfo, allocator>",
+    "uuid": "{22CF640B-104F-5EC4-B6AE-5EE144F1DBE2}",
+    "version": 0,
+    "containerTypes": [
+        "{08B32F99-2EA2-4ABE-A05F-1AA32EF44B15}"
+    ],
+    "typeSize": 32,
+    "elements": []
+}
+, {
+    "name": "ScriptUserClassInfo",
+    "uuid": "{08B32F99-2EA2-4ABE-A05F-1AA32EF44B15}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 112,
+    "elements": [
+        {
+            "name": "name",
+            "nameCrc": 1579384326,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 0,
+            "cppSize": 24,
+            "elementIndex": 0
+        },
+        {
+            "name": "type",
+            "nameCrc": 2363381545,
+            "isBaseClass": false,
+            "uuid": "{E152C105-A133-4D03-BBF8-3D4B2FBA3E2A}",
+            "cppOffset": 32,
+            "cppSize": 16,
+            "elementIndex": 1
+        },
+        {
+            "name": "methods",
+            "nameCrc": 1457715049,
+            "isBaseClass": false,
+            "uuid": "{CA21F66F-02FD-52A2-A5F6-A553F0F1E548}",
+            "cppOffset": 48,
+            "cppSize": 32,
+            "elementIndex": 2
+        },
+        {
+            "name": "properties",
+            "nameCrc": 2277716423,
+            "isBaseClass": false,
+            "uuid": "{40F916D5-7816-59B5-AFDA-1AC31A37E4AB}",
+            "cppOffset": 80,
+            "cppSize": 32,
+            "elementIndex": 3
+        }
+    ]
+}
+, {
+    "name": "AZStd::vector<ScriptUserPropertyInfo, allocator>",
+    "uuid": "{40F916D5-7816-59B5-AFDA-1AC31A37E4AB}",
+    "version": 0,
+    "containerTypes": [
+        "{6CD9F5BE-B2CD-41BB-9DA5-1B053548CF56}"
+    ],
+    "typeSize": 32,
+    "elements": []
+}
+, {
+    "name": "ScriptUserPropertyInfo",
+    "uuid": "{6CD9F5BE-B2CD-41BB-9DA5-1B053548CF56}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 32,
+    "elements": [
+        {
+            "name": "name",
+            "nameCrc": 1579384326,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 0,
+            "cppSize": 24,
+            "elementIndex": 0
+        },
+        {
+            "name": "isRead",
+            "nameCrc": 2572745557,
+            "isBaseClass": false,
+            "uuid": "{A0CA880C-AFE4-43CB-926C-59AC48496112}",
+            "cppOffset": 24,
+            "cppSize": 1,
+            "elementIndex": 1
+        },
+        {
+            "name": "isWrite",
+            "nameCrc": 3049071717,
+            "isBaseClass": false,
+            "uuid": "{A0CA880C-AFE4-43CB-926C-59AC48496112}",
+            "cppOffset": 25,
+            "cppSize": 1,
+            "elementIndex": 2
+        }
+    ]
+}
+, {
+    "name": "AZStd::vector<ScriptUserMethodInfo, allocator>",
+    "uuid": "{CA21F66F-02FD-52A2-A5F6-A553F0F1E548}",
+    "version": 0,
+    "containerTypes": [
+        "{32FE4B43-2C23-4AB4-9374-3D13CF050002}"
+    ],
+    "typeSize": 32,
+    "elements": []
+}
+, {
+    "name": "AZ::Uuid",
+    "uuid": "{E152C105-A133-4D03-BBF8-3D4B2FBA3E2A}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 16,
+    "elements": []
+}
+, {
+    "name": "ScriptDebugRequest",
+    "uuid": "{2137E01A-F2AE-4137-A17E-6B82F3B7E4DE}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 96,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "request",
+            "nameCrc": 999788447,
+            "isBaseClass": false,
+            "uuid": "{43DA906B-7DEF-4CA8-9790-854106D3F983}",
+            "cppOffset": 64,
+            "cppSize": 4,
+            "elementIndex": 1
+        },
+        {
+            "name": "context",
+            "nameCrc": 3797779838,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 72,
+            "cppSize": 24,
+            "elementIndex": 2
+        }
+    ]
+}
+, {
+    "name": "unsigned int",
+    "uuid": "{43DA906B-7DEF-4CA8-9790-854106D3F983}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 4,
+    "elements": []
+}
+, {
+    "name": "ScriptDebugAckExecute",
+    "uuid": "{F5B24F7E-85DA-4FE8-B720-AABE35CE631D}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 96,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "moduleName",
+            "nameCrc": 4282084872,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 64,
+            "cppSize": 24,
+            "elementIndex": 1
+        },
+        {
+            "name": "result",
+            "nameCrc": 325763347,
+            "isBaseClass": false,
+            "uuid": "{A0CA880C-AFE4-43CB-926C-59AC48496112}",
+            "cppOffset": 88,
+            "cppSize": 1,
+            "elementIndex": 2
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugAck",
+    "uuid": "{0CA1671A-BAFD-499C-B2CD-7B7E3DD5E2A8}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 72,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "request",
+            "nameCrc": 999788447,
+            "isBaseClass": false,
+            "uuid": "{43DA906B-7DEF-4CA8-9790-854106D3F983}",
+            "cppOffset": 64,
+            "cppSize": 4,
+            "elementIndex": 1
+        },
+        {
+            "name": "ackCode",
+            "nameCrc": 2256423939,
+            "isBaseClass": false,
+            "uuid": "{43DA906B-7DEF-4CA8-9790-854106D3F983}",
+            "cppOffset": 68,
+            "cppSize": 4,
+            "elementIndex": 2
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugEnumLocalsResult",
+    "uuid": "{201701DD-0B74-4886-AB84-93BDB338A8DD}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 96,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "names",
+            "nameCrc": 4063447360,
+            "isBaseClass": false,
+            "uuid": "{99DAD0BC-740E-5E82-826B-8FC7968CC02C}",
+            "cppOffset": 64,
+            "cppSize": 32,
+            "elementIndex": 1
+        }
+    ]
+}
+, {
+    "name": "AZStd::vector<AZStd::basic_string<char, AZStd::char_traits<char>, allocator>, allocator>",
+    "uuid": "{99DAD0BC-740E-5E82-826B-8FC7968CC02C}",
+    "version": 0,
+    "containerTypes": [
+        "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}"
+    ],
+    "typeSize": 32,
+    "elements": []
+}
+, {
+    "name": "ScriptDebugBreakpointRequest",
+    "uuid": "{707F97AB-1CA0-4191-82E0-FFE9C9D0F788}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 104,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{2137E01A-F2AE-4137-A17E-6B82F3B7E4DE}",
+            "cppOffset": 0,
+            "cppSize": 96,
+            "elementIndex": -1
+        },
+        {
+            "name": "line",
+            "nameCrc": 3507795190,
+            "isBaseClass": false,
+            "uuid": "{43DA906B-7DEF-4CA8-9790-854106D3F983}",
+            "cppOffset": 96,
+            "cppSize": 4,
+            "elementIndex": 3
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugCallStackResult",
+    "uuid": "{B2606AC6-F966-4991-8144-BA6117F4A54E}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 88,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "callstack",
+            "nameCrc": 722234413,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 64,
+            "cppSize": 24,
+            "elementIndex": 1
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugRegisteredGlobalsResult",
+    "uuid": "{CEE4E889-0249-4D59-9D56-CD4BD159E411}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 128,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "methods",
+            "nameCrc": 1457715049,
+            "isBaseClass": false,
+            "uuid": "{CA21F66F-02FD-52A2-A5F6-A553F0F1E548}",
+            "cppOffset": 64,
+            "cppSize": 32,
+            "elementIndex": 1
+        },
+        {
+            "name": "properties",
+            "nameCrc": 2277716423,
+            "isBaseClass": false,
+            "uuid": "{40F916D5-7816-59B5-AFDA-1AC31A37E4AB}",
+            "cppOffset": 96,
+            "cppSize": 32,
+            "elementIndex": 2
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugAckBreakpoint",
+    "uuid": "{D9644B8A-92FD-43B6-A579-77E123A72EC2}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 104,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "id",
+            "nameCrc": 3208210256,
+            "isBaseClass": false,
+            "uuid": "{43DA906B-7DEF-4CA8-9790-854106D3F983}",
+            "cppOffset": 64,
+            "cppSize": 4,
+            "elementIndex": 1
+        },
+        {
+            "name": "moduleName",
+            "nameCrc": 4282084872,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 72,
+            "cppSize": 24,
+            "elementIndex": 2
+        },
+        {
+            "name": "line",
+            "nameCrc": 3507795190,
+            "isBaseClass": false,
+            "uuid": "{43DA906B-7DEF-4CA8-9790-854106D3F983}",
+            "cppOffset": 96,
+            "cppSize": 4,
+            "elementIndex": 3
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugSetValueResult",
+    "uuid": "{2E2BD168-1805-43D6-8602-FDE14CED8E53}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 96,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "name",
+            "nameCrc": 1579384326,
+            "isBaseClass": false,
+            "uuid": "{03AAAB3F-5C47-5A66-9EBC-D5FA4DB353C9}",
+            "cppOffset": 64,
+            "cppSize": 24,
+            "elementIndex": 1
+        },
+        {
+            "name": "result",
+            "nameCrc": 325763347,
+            "isBaseClass": false,
+            "uuid": "{A0CA880C-AFE4-43CB-926C-59AC48496112}",
+            "cppOffset": 88,
+            "cppSize": 1,
+            "elementIndex": 2
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugAgent",
+    "uuid": "{624A7BE2-3C7E-4119-AEE2-1DB2BDB6CC89}",
+    "version": 1,
+    "containerTypes": [],
+    "typeSize": 248,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{EDFCB2CF-F75D-43BE-B26B-F35821B29247}",
+            "cppOffset": 0,
+            "cppSize": 24,
+            "elementIndex": -1
+        }
+    ]
+}
+, {
+    "name": "AZ::Component",
+    "uuid": "{EDFCB2CF-F75D-43BE-B26B-F35821B29247}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 24,
+    "elements": [
+        {
+            "name": "Id",
+            "nameCrc": 3208210256,
+            "isBaseClass": false,
+            "uuid": "{D6597933-47CD-4FC8-B911-63F3E2B0993A}",
+            "cppOffset": 16,
+            "cppSize": 8,
+            "elementIndex": 0
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugEnumContextsResult",
+    "uuid": "{8CE74569-9B7D-4993-AFE8-38BB8CE419F5}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 96,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "names",
+            "nameCrc": 4063447360,
+            "isBaseClass": false,
+            "uuid": "{99DAD0BC-740E-5E82-826B-8FC7968CC02C}",
+            "cppOffset": 64,
+            "cppSize": 32,
+            "elementIndex": 1
+        }
+    ]
+}
+, {
+    "name": "ScriptDebugGetValueResult",
+    "uuid": "{B10720F1-B8FE-476F-A39D-6E80711580FD}",
+    "version": 0,
+    "containerTypes": [],
+    "typeSize": 192,
+    "elements": [
+        {
+            "name": "BaseClass1",
+            "nameCrc": 3566360373,
+            "isBaseClass": true,
+            "uuid": "{8512328C-949D-4F0C-B48D-77C26C207443}",
+            "cppOffset": 0,
+            "cppSize": 64,
+            "elementIndex": -1
+        },
+        {
+            "name": "value",
+            "nameCrc": 494360628,
+            "isBaseClass": false,
+            "uuid": "{C32D1E88-2B8B-432C-91BC-D0B4B135279D}",
+            "cppOffset": 64,
+            "cppSize": 128,
+            "elementIndex": 1
+        }
+    ]
+}
+
+
+]
+}
