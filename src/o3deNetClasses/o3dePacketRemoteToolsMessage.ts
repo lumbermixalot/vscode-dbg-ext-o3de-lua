@@ -87,13 +87,22 @@ export class O3DEPacketRemoteToolsMessage extends O3DEPacketBase
         return this.m_messageBuffer;
     }
 
+    public GetPartialSize(): number
+    {
+        return this.m_messageBufferSize;
+    }
+
+    public GetTotalSize(): number
+    {
+        return this.m_totalSize;
+    }
 
     public HasCompleteMessage(): boolean {
         if (!this.IsValid())
         {
             return false;
         }
-        return this.m_messageBufferSize == this.m_totalSize;
+        return this.GetPartialSize() == this.GetTotalSize();
     }
 
     public WriteToBuffer(bufferView: Uint8Array)

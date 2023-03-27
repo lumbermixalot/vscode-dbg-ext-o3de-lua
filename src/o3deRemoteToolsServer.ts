@@ -38,16 +38,145 @@ export namespace O3DEInternalEvents
 
 const g_o3deSC = new O3DESerializationContext();
 
+
+//! This is a helper class that accumulates a list of O3DEPacketRemoteToolsMessage
+//! that represent a single object to deserialize.
+class SplitMessagesMgr
+{
+    private m_msgList: O3DEPacketRemoteToolsMessage[];
+    private m_accumulatedBytes: number;
+
+    constructor()
+    {
+        this.m_msgList = [];
+        this.m_accumulatedBytes = 0; 
+    }
+
+    public Reset()
+    {
+        this.m_msgList = [];
+        this.m_accumulatedBytes = 0; 
+    }
+
+    public HasData(): boolean
+    {
+        return this.m_msgList.length > 0;
+    }
+
+    public IsComplete(): boolean
+    {
+        if (!this.HasData())
+        {
+            return false;
+        }
+        return this.m_msgList[0].GetTotalSize() == this.m_accumulatedBytes;
+    }
+
+    public AppendIncompleteMessage(msg: O3DEPacketRemoteToolsMessage)
+    {
+        if (this.IsComplete())
+        {
+            let errorMsg = `SplitMessagesMgr is already holding a complete message`;
+            console.error(errorMsg);
+            throw new Error(errorMsg);
+        }
+        this.m_msgList.push(msg);
+        this.m_accumulatedBytes += msg.GetPartialSize();
+        if (this.m_accumulatedBytes > msg.GetTotalSize())
+        {
+            let errorMsg = `SplitMessagesMgr Error: Was expecting total size of ${msg.GetTotalSize()} bytes, but so far has accumulated ${this.m_accumulatedBytes} bytes`;
+            console.error(errorMsg);
+            throw new Error(errorMsg);
+        }
+    }
+
+    public GetBufferView(): Uint8Array
+    {
+        if (!this.IsComplete())
+        {
+            let errorMsg = `SplitMessagesMgr Error. Current msg is incomplete. Returning array with incomplete data`;
+            console.error(errorMsg);
+        }
+        let retArray = new Uint8Array(this.m_msgList[0].GetTotalSize());
+        let offset = 0;
+        for (let msg of this.m_msgList)
+        {
+            retArray.set(msg.GetMsgBufferView(), offset);
+            offset += msg.GetPartialSize();
+        }
+        return retArray;
+    }
+
+    public DumpStatusToLog()
+    {
+        console.log(`SplitMessagesMgr Status: ${this.m_accumulatedBytes} bytes in ${this.m_msgList.length} messages`);
+    }
+
+}
+
+// A Helper class to read data from raw Tcp streams.
+class TcpReadState
+{
+    private m_expectedSize: number;
+    private m_bytesRead: number;
+    private m_bytes: Uint8Array;
+
+    constructor(expectedSize: number)
+    {
+        this.Reset(expectedSize);
+    }
+
+    Reset(expectedSize: number)
+    {
+        this.m_expectedSize = expectedSize;
+        this.m_bytesRead = 0;
+        this.m_bytes = new Uint8Array(this.m_expectedSize);
+    }
+
+    IsComplete()
+    {
+        return this.m_bytesRead == this.m_expectedSize;
+    }
+
+    ReadData(netBuffer: Uint8Array, offset: number): number
+    {
+        let bytesToRead = Math.min(this.m_expectedSize - this.m_bytesRead, netBuffer.byteLength - offset);
+        this.m_bytes.set(new Uint8Array(netBuffer.buffer, offset, bytesToRead), this.m_bytesRead);
+        //this.m_bytes.set(netBuffer, this.m_bytesRead);
+        this.m_bytesRead += bytesToRead;
+        return bytesToRead;
+    }
+
+    GetBytes(): Uint8Array
+    {
+        return this.m_bytes;
+    }
+}
+
+
 export class O3DETcpSession extends EventEmitter
 {
     private m_sendBuffer: Uint8Array;
     private m_persistentId: number;
     private m_terminatedByUser: boolean;
+    private m_splitMsgMgr: SplitMessagesMgr;
+
+    // As We get data we store it here until completing a O3DETcpHeader (5 bytes) + O3DETcpHeader.GetPacketSize().
+    // Once the data is complete, we proceed with processing.
+    private m_headerReadState: TcpReadState;
+    private m_dataReadState: TcpReadState | null;
+    private m_tcpHeader: O3DETcpHeader | null;
+    
     constructor(public m_socket: Net.Socket) {
         super();
         this.m_terminatedByUser = false;
         this.m_sendBuffer = new Uint8Array(64 * 1024);
         this.m_persistentId = AZCRC32.AZ_CRC32_STR("LuaRemoteTools");
+        this.m_splitMsgMgr = new SplitMessagesMgr();
+
+        this.m_headerReadState = new TcpReadState(O3DETcpHeader.HeaderSize);
+        this.m_dataReadState = null;
+        this.m_tcpHeader = null;
     }
 
     Start()
@@ -90,56 +219,80 @@ export class O3DETcpSession extends EventEmitter
         this.m_terminatedByUser = true;
     }
 
-    OnMsgReceived(buffer: Buffer)
+    OnMsgReceived(netbuffer: Buffer)
     {
-        console.log(`Received message of length ${buffer.length}`);
+        console.log(`Received message of length ${netbuffer.length}`);
 
-        if (buffer.length == 239)
-        {
-            console.log("got the message!");
-        }
+        //if (buffer.length == 239)
+        //{
+        //    console.log("got the message!");
+        //}
 
         //let my32: number = AZCRC32.AZ_CRC32_STR("ScriptDebugAgent");
         //console.log(`AZ my32 ${my32}=0x${my32.toString(16)}`);
     
         // We need to parse the @data buffer in terms of chunks.
-        let pendingBytes: number = buffer.length;
-        let bufferView = new Uint8Array(buffer.buffer);
+        let pendingBytes: number = netbuffer.length;
+        let netBufferView = new Uint8Array(netbuffer.buffer);
         let totalBytesRead = 0;
         while (pendingBytes > 0)
         {
-            if (pendingBytes < O3DETcpHeader.HeaderSize)
+            if (!this.m_headerReadState.IsComplete())
             {
-                console.error(`Invalid pendingBytes=${pendingBytes}, was expecting at least ${O3DETcpHeader.HeaderSize}`);
-                break;
+                let bytesRead = this.m_headerReadState.ReadData(netBufferView, totalBytesRead);
+                totalBytesRead += bytesRead;
+                pendingBytes -= bytesRead;
+                continue;
             }
 
-            let msgHeader = new O3DETcpHeader(bufferView);
-            totalBytesRead += O3DETcpHeader.HeaderSize;
-            bufferView = new Uint8Array(buffer.buffer, totalBytesRead);
-            //let subMessageSize = O3DETcpHeader.HeaderSize + msgHeader.GetPacketSize();
-            switch (msgHeader.GetPacketType())
+            if (this.m_tcpHeader === null)
             {
-                case O3DEPacketInitiateConnection.PacketType:
-                    console.log(`Got O3DEPacketInitiateConnection : ${msgHeader.GetPacketType()}`);
-                    break;
-                case O3DEPacketRemoteToolsConnect.PacketType:
-                    let remoteToolsConnect = new O3DEPacketRemoteToolsConnect(msgHeader, bufferView);
-                    this.OnO3DEPacketToolsConnect(remoteToolsConnect);
-                    break;
-                case O3DEPacketRemoteToolsMessage.PacketType:
-                    let remoteToolsMessage = new O3DEPacketRemoteToolsMessage(msgHeader, bufferView);
-                    this.OnO3DEPacketToolsMessage(remoteToolsMessage);
-                    break;
-                default:
-                    console.log(`Unknown message type: ${msgHeader.GetPacketType()}`);
-                    break;
+                this.m_tcpHeader = new O3DETcpHeader(this.m_headerReadState.GetBytes());
             }
-            totalBytesRead += msgHeader.GetPacketSize();
-            bufferView = new Uint8Array(buffer.buffer, totalBytesRead);
-            pendingBytes = buffer.length - bufferView.byteOffset;
+
+            if (this.m_dataReadState === null)
+            {
+                this.m_dataReadState = new TcpReadState(this.m_tcpHeader.GetPacketSize());
+            }
+
+            let bytesRead = this.m_dataReadState.ReadData(netBufferView, totalBytesRead);
+            totalBytesRead += bytesRead;
+            pendingBytes -= bytesRead;
+
+            if (!this.m_dataReadState.IsComplete())
+            {
+                continue;
+            }
+
+            this.OnO3DEPacketReceived(this.m_tcpHeader, this.m_dataReadState.GetBytes());
+
+            // Reset the data.
+            this.m_headerReadState.Reset(O3DETcpHeader.HeaderSize);
+            this.m_tcpHeader = null;
+            this.m_dataReadState = null;
         }
 
+    }
+
+    OnO3DEPacketReceived(msgHeader: O3DETcpHeader, bufferView: Uint8Array)
+    {
+        switch (msgHeader.GetPacketType())
+        {
+            case O3DEPacketInitiateConnection.PacketType:
+                console.log(`Got O3DEPacketInitiateConnection : ${msgHeader.GetPacketType()}`);
+                break;
+            case O3DEPacketRemoteToolsConnect.PacketType:
+                let remoteToolsConnect = new O3DEPacketRemoteToolsConnect(msgHeader, bufferView);
+                this.OnO3DEPacketToolsConnect(remoteToolsConnect);
+                break;
+            case O3DEPacketRemoteToolsMessage.PacketType:
+                let remoteToolsMessage = new O3DEPacketRemoteToolsMessage(msgHeader, bufferView);
+                this.OnO3DEPacketToolsMessage(remoteToolsMessage);
+                break;
+            default:
+                console.log(`Unknown message type: ${msgHeader.GetPacketType()}`);
+                break;
+        }
     }
 
     OnO3DEPacketToolsConnect(msg: O3DEPacketRemoteToolsConnect)
@@ -166,48 +319,60 @@ export class O3DETcpSession extends EventEmitter
     {
         if (msg.HasCompleteMessage())
         {
-            let objStream = new O3DEObjectStream(g_o3deSC);
-            let netObject: O3DENetObject | null = objStream.CreateInstanceFromBuffer(msg.GetMsgBufferView());
-            if (!netObject)
-            {
-                let msg = "OnO3DEPacketToolsMessage Error: Got invalid message";
-                console.error(msg);
-                throw new Error(msg);
-            }
-            switch (netObject.GetUuid())
-            {
-                case O3DE.ScriptDebugAck.UUID:
-                    let scriptDebugAck = new O3DE.ScriptDebugAck(netObject.GetElementsForSerialization()); 
-                    this.OnScriptDebugAck(scriptDebugAck);
-                    break;
-                case O3DE.ScriptDebugAckBreakpoint.UUID:
-                    let scriptDebugAckBreakpoint = new O3DE.ScriptDebugAckBreakpoint(netObject.GetElementsForSerialization()); 
-                    this.OnScriptDebugAckBreakpoint(scriptDebugAckBreakpoint);
-                    break;
-                case O3DE.ScriptDebugCallStackResult.UUID:
-                    let scriptDebugCalllstackResult = new O3DE.ScriptDebugCallStackResult(netObject.GetElementsForSerialization()); 
-                    this.OnScriptDebugCallstackResult(scriptDebugCalllstackResult);
-                    break;
-                case O3DE.ScriptDebugEnumLocalsResult.UUID:
-                    let scriptDebugEnumLocalsResult = new O3DE.ScriptDebugEnumLocalsResult(netObject.GetElementsForSerialization()); 
-                    this.OnScriptDebugEnumLocalsResult(scriptDebugEnumLocalsResult);
-                    break;
-                case O3DE.ScriptDebugGetValueResult.UUID:
-                    let scriptDebugGetValueResult = new O3DE.ScriptDebugGetValueResult(netObject.GetElementsForSerialization()); 
-                    this.OnScriptDebugGetValueResult(scriptDebugGetValueResult);
-                    break;
-                case O3DE.ScriptDebugSetValueResult.UUID:
-                    let scriptDebugSetValueResult = new O3DE.ScriptDebugSetValueResult(netObject.GetElementsForSerialization()); 
-                    this.OnScriptDebugSetValueResult(scriptDebugSetValueResult);
-                    break;
-                default:
-                    console.error(`Can not handle net object with uuid=${netObject.GetUuid()}`);
-                    break;
-            }
+            this.OnCompleteRemoteToolsMessage(msg.GetMsgBufferView());
         }
         else
         {
-            console.error("Error. Incomplete messages not supported!");
+            this.m_splitMsgMgr.AppendIncompleteMessage(msg);
+            if (this.m_splitMsgMgr.IsComplete())
+            {
+                this.m_splitMsgMgr.DumpStatusToLog();
+                let completeBuffer = this.m_splitMsgMgr.GetBufferView();
+                this.OnCompleteRemoteToolsMessage(completeBuffer);
+                this.m_splitMsgMgr.Reset();
+            }
+        }
+    }
+
+    OnCompleteRemoteToolsMessage(msgBufferView: Uint8Array)
+    {
+        let objStream = new O3DEObjectStream(g_o3deSC);
+        let netObject: O3DENetObject | null = objStream.CreateInstanceFromBuffer(msgBufferView);
+        if (!netObject)
+        {
+            let msg = "OnO3DEPacketToolsMessage Error: Got invalid message";
+            console.error(msg);
+            throw new Error(msg);
+        }
+        switch (netObject.GetUuid())
+        {
+            case O3DE.ScriptDebugAck.UUID:
+                let scriptDebugAck = new O3DE.ScriptDebugAck(netObject.GetElementsForSerialization()); 
+                this.OnScriptDebugAck(scriptDebugAck);
+                break;
+            case O3DE.ScriptDebugAckBreakpoint.UUID:
+                let scriptDebugAckBreakpoint = new O3DE.ScriptDebugAckBreakpoint(netObject.GetElementsForSerialization()); 
+                this.OnScriptDebugAckBreakpoint(scriptDebugAckBreakpoint);
+                break;
+            case O3DE.ScriptDebugCallStackResult.UUID:
+                let scriptDebugCalllstackResult = new O3DE.ScriptDebugCallStackResult(netObject.GetElementsForSerialization()); 
+                this.OnScriptDebugCallstackResult(scriptDebugCalllstackResult);
+                break;
+            case O3DE.ScriptDebugEnumLocalsResult.UUID:
+                let scriptDebugEnumLocalsResult = new O3DE.ScriptDebugEnumLocalsResult(netObject.GetElementsForSerialization()); 
+                this.OnScriptDebugEnumLocalsResult(scriptDebugEnumLocalsResult);
+                break;
+            case O3DE.ScriptDebugGetValueResult.UUID:
+                let scriptDebugGetValueResult = new O3DE.ScriptDebugGetValueResult(netObject.GetElementsForSerialization()); 
+                this.OnScriptDebugGetValueResult(scriptDebugGetValueResult);
+                break;
+            case O3DE.ScriptDebugSetValueResult.UUID:
+                let scriptDebugSetValueResult = new O3DE.ScriptDebugSetValueResult(netObject.GetElementsForSerialization()); 
+                this.OnScriptDebugSetValueResult(scriptDebugSetValueResult);
+                break;
+            default:
+                console.error(`Can not handle net object with uuid=${netObject.GetUuid()}`);
+                break;
         }
     }
 

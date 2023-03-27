@@ -1,7 +1,7 @@
 {
   "name": "o3de-lua-debug",
   "displayName": "Lua Debugger For O3DE",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "lumbermixalot",
   "description": "Lua Debugger Extension For O3DE.",
   "author": {

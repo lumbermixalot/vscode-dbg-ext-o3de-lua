@@ -15,6 +15,9 @@ Validate tsc (optional)
 $ tsc --version
 Version 5.0.2
 
+4- yarn
+$ yarn
+
 
 
 
